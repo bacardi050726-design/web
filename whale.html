@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Ultimate Archive | 공룡 대백과사전</title>
+    <style>
+        :root {
+            --dino-black: #121212;
+            --carnivore-red: #d00000;
+            --herbivore-green: #2d6a4f;
+            --ocean-blue: #0077b6;
+            --sky-blue: #48cae4;
+            --fossil-gold: #ffb703;
+            --bg-light: #fdfaf5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg-light); color: #333; line-height: 1.6; scroll-behavior: smooth; }
+
+        /* Navigation */
+        header {
+            background: var(--dino-black); color: white; padding: 1rem 10%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; z-index: 1000; border-bottom: 3px solid var(--fossil-gold);
+        }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--fossil-gold); letter-spacing: 1px; }
+        nav { display: flex; flex-wrap: wrap; gap: 15px; }
+        nav a { color: white; text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        nav a:hover { color: var(--fossil-gold); }
+
+        /* Hero / Brand Intro */
+        .hero {
+            padding: 160px 10% 80px;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.9)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&q=80') center/cover;
+            color: white; text-align: center;
+        }
+        .hero h1 { font-size: 3rem; color: var(--fossil-gold); margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; color: #ddd; }
+
+        /* General Section Styles */
+        .container { padding: 80px 10%; }
+        .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .section-desc { text-align: center; color: #666; margin-bottom: 50px; font-size: 1.1rem; }
+        
+        /* Features / Hypotheses Cards */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .text-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--fossil-gold); }
+        .text-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: var(--dino-black); }
+
+        /* Timeline (Graph) */
+        .timeline-container {
+            display: flex; height: 16px; background: #eee; border-radius: 8px; margin: 60px 0 20px;
+            position: relative;
+        }
+        .timeline-bar { height: 100%; position: relative; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: bold; }
+        .triassic { width: 25%; background: #a7c957; border-radius: 8px 0 0 8px; }
+        .jurassic { width: 35%; background: #6a994e; }
+        .cretaceous { width: 40%; background: #bc4749; border-radius: 0 8px 8px 0; }
+        .label { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 0.9rem; color: #333; }
+
+        /* Category Classification */
+        .classification-box { background: #fff; padding: 40px; border-radius: 15px; border: 1px solid #eee; margin-bottom: 50px; text-align: center; }
+        .classification-box h3 { margin-bottom: 15px; color: var(--ocean-blue); }
+
+        /* Dino Cards Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 80px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
+        .card-img { height: 160px; background-color: #eee; background-size: cover; background-position: center; }
+        .card-content { padding: 20px; }
+        .card-content h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .info-row { font-size: 0.85rem; margin-bottom: 4px; display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 2px; }
+        .info-row b { color: #555; }
+
+        /* Category Specific Styles */
+        .title-red { color: var(--carnivore-red); }
+        .title-green { color: var(--herbivore-green); }
+        .title-blue { color: var(--ocean-blue); }
+        .title-sky { color: #0096c7; }
+
+        /* Ecology Box */
+        .ecology-box { background: #e9f5e9; padding: 40px; border-radius: 15px; border-left: 8px solid var(--herbivore-green); margin-bottom: 80px; }
+
+        /* Extinction (Bottom) */
+        .extinction-hero {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(188, 71, 73, 0.95)), 
+                        url('https://images.unsplash.com/photo-1517926967795-31943e805dae?w=1200&q=80') center/cover;
+            color: white; padding: 120px 10%; text-align: center;
+        }
+        .extinction-hero h2 { font-size: 2.8rem; color: var(--fossil-gold); margin-bottom: 20px; }
+        .extinction-hero p { max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; }
+
+        footer { background: #111; color: #666; text-align: center; padding: 30px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">DINO ARCHIVE</div>
+    <nav>
+        <a href="#intro">소개</a>
+        <a href="#features">특징</a>
+        <a href="#timeline">타임라인</a>
+        <a href="#classification">분류 & 종류</a>
+        <a href="#ecosystem">생태계</a>
+        <a href="#hypotheses">가설</a>
+        <a href="#extinction">멸종</a>
+    </nav>
+</header>
+
+<section id="intro" class="hero">
+    <h1>과거를 지배했던 거대한 생명체</h1>
+    <p>Dino Ultimate Archive는 수억 년 전 지구를 누비던 경이로운 생명체, 공룡에 대한 모든 것을 담은 디지털 대백과사전입니다. 철저한 과학적 고증을 바탕으로 중생대의 신비를 탐구합니다.</p>
+</section>
+
+<section id="features" class="container">
+    <h2 class="section-title">공룡이란 무엇인가?</h2>
+    <p class="section-desc">파충류와 공룡을 구분 짓는 핵심적인 특징들</p>
+    <div class="info-grid">
+        <div class="text-card">
+            <h3>🦴 곧게 뻗은 다리</h3>
+            <p>악어나 도마뱀처럼 다리가 양옆으로 뻗어 구부러진 일반 파충류와 달리, 공룡은 골반 구조가 발달하여 다리가 몸체 아래로 곧게 뻗어 있어 체중을 효과적으로 지탱하고 빠르게 달릴 수 있었습니다.</p>
+        </div>
+        <div class="text-card">
+            <h3>🥚 육상 생활과 알</h3>
+            <p>공룡은 육지에서 생활하며 단단한 껍질을 가진 알을 낳았습니다. 물속에 알을 낳는 양서류와 달리 건조한 육지 환경에서도 번식할 수 있는 진화적 이점을 가졌습니다.</p>
+        </div>
+        <div class="text-card">
+            <h3>💀 두개골의 구멍 (이궁류)</h3>
+            <p>공룡은 눈구멍 뒤쪽에 두 개의 구멍(측두창)이 있는 이궁류에 속합니다. 이 구멍은 턱 근육이 부착될 공간을 제공하여 씹는 힘을 강력하게 만들어 주었습니다.</p>
+        </div>
+    </div>
+</section>
+
+<section id="timeline" class="container" style="background-color: white;">
+    <h2 class="section-title">중생대 연대기</h2>
+    <p class="section-desc">2억 5천만 년 전 ~ 6,600만 년 전, 거인들의 시대</p>
+    <div class="timeline-container">
+        <div class="timeline-bar triassic">
+            <span class="label">트라이아스기</span>
+            2.5억 ~ 2억 년 전
+        </div>
+        <div class="timeline-bar jurassic">
+            <span class="label">쥬라기</span>
+            2억 ~ 1.45억 년 전
+        </div>
+        <div class="timeline-bar cretaceous">
+            <span class="label">백악기</span>
+            1.45억 ~ 6,600만 년 전
+        </div>
+    </div>
+</section>
+
+<section id="classification" class="container">
+    <h2 class="section-title">공룡의 분류와 종류</h2>
+    <p class="section-desc">골반의 형태와 생태 지위에 따른 공룡 및 중생대 파충류의 분류</p>
+    
+    <div class="classification-box">
+        <h3>용반목(Saurischia) vs 조반목(Ornithischia)</h3>
+        <p>공룡은 크게 골반의 모양에 따라 파충류형 골반을 가진 <b>용반목</b>(수각류, 용각류 등)과 새형 골반을 가진 <b>조반목</b>(각룡류, 검룡류 등)으로 나뉩니다. 재미있게도 오늘날의 새는 조반목이 아닌 용반목(수각류)에서 진화했습니다.</p>
+        <p style="font-size: 0.85rem; color: #777; margin-top: 10px;">* 참고: 익룡과 수장룡은 학술적으로 공룡이 아닌 동시대에 살았던 '파충류'로 분류되나, 편의상 본 아카이브에 함께 수록합니다.</p>
+    </div>
+
+    <h3 class="section-title title-red" style="font-size: 1.8rem; border:none; text-align: left;">용반목 - 수각류 (Predators)</h3>
+    <div class="grid">
+        <div class="card"><div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1517926967795-31943e805dae?w=400')"></div><div class="card-content"><h3>스피노사우루스</h3><div class="info-row"><b>길이</b> <span>15m</span></div><div class="info-row"><b>특징</b> <span>수중 사냥, 거대한 돛</span></div></div></div>
+        <div class="card"><div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1559969143-b2defc6419fd?w=400')"></div><div class="card-content"><h3>티라노사우루스</h3><div class="info-row"><b>길이</b> <span>13m</span></div><div class="info-row"><b>특징</b> <span>최강의 턱 힘, 백악기 제왕</span></div></div></div>
+        <div class="card"><div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1623126781297-75e348938bc9?w=400')"></div><div class="card-content"><h3>기가노토사우루스</h3><div class="info-row"><b>길이</b> <span>12.5m</span></div><div class="info-row"><b>특징</b> <span>남미의 거대 포식자</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>알로사우루스</h3><div class="info-row"><b>길이</b> <span>8.5m</span></div><div class="info-row"><b>특징</b> <span>쥬라기의 사자</span></div></div></div>
+    </div>
+
+    <h3 class="section-title title-green" style="font-size: 1.8rem; border:none; text-align: left;">용반목/조반목 - 초식 공룡 (Herbivores)</h3>
+    <div class="grid">
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>아르헨티노사우루스</h3><div class="info-row"><b>분류</b> <span>용반목 (용각류)</span></div><div class="info-row"><b>특징</b> <span>지상 최대의 생명체</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>트리케라톱스</h3><div class="info-row"><b>분류</b> <span>조반목 (각룡류)</span></div><div class="info-row"><b>특징</b> <span>세 개의 거대한 뿔</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>스테고사우루스</h3><div class="info-row"><b>분류</b> <span>조반목 (검룡류)</span></div><div class="info-row"><b>특징</b> <span>등의 골판과 꼬리 가시</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>안킬로사우루스</h3><div class="info-row"><b>분류</b> <span>조반목 (곡룡류)</span></div><div class="info-row"><b>특징</b> <span>철갑 갑옷과 꼬리 곤봉</span></div></div></div>
+    </div>
+
+    <h3 class="section-title title-blue" style="font-size: 1.8rem; border:none; text-align: left;">해양 파충류 (Ocean Giants)</h3>
+    <div class="grid">
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>모사사우루스</h3><div class="info-row"><b>길이</b> <span>17m</span></div><div class="info-row"><b>특징</b> <span>백악기 바다의 최상위 포식자</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>플리오사우루스</h3><div class="info-row"><b>길이</b> <span>12m</span></div><div class="info-row"><b>특징</b> <span>강력한 치악력 (프레데터 X)</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>엘라스모사우루스</h3><div class="info-row"><b>길이</b> <span>10m</span></div><div class="info-row"><b>특징</b> <span>매우 긴 목을 가진 수장룡</span></div></div></div>
+    </div>
+
+    <h3 class="section-title title-sky" style="font-size: 1.8rem; border:none; text-align: left;">비행 파충류 (Sky Rulers)</h3>
+    <div class="grid">
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>케찰코아틀루스</h3><div class="info-row"><b>날개폭</b> <span>11m</span></div><div class="info-row"><b>특징</b> <span>기린만큼 큰 키의 비행 괴수</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>프테라노돈</h3><div class="info-row"><b>날개폭</b> <span>7m</span></div><div class="info-row"><b>특징</b> <span>머리 뒤 볏이 특징</span></div></div></div>
+        <div class="card"><div class="card-img"></div><div class="card-content"><h3>디모르포돈</h3><div class="info-row"><b>날개폭</b> <span>1.2m</span></div><div class="info-row"><b>특징</b> <span>두 종류의 이빨을 가짐</span></div></div></div>
+    </div>
+</section>
+
+<section id="ecosystem" class="container">
+    <h2 class="section-title">중생대 생태계 시스템</h2>
+    <div class="ecology-box">
+        <h3 style="margin-bottom: 15px; font-size: 1.5rem;">🌱 거대한 순환의 고리</h3>
+        <p style="margin-bottom: 15px;">공룡 시대의 지구는 높은 기온과 풍부한 이산화탄소 농도로 인해 겉씨식물과 양치식물이 폭발적으로 성장했습니다. 이러한 풍부한 식량 자원은 초식 공룡들이 역사상 유례없는 거대한 몸집으로 진화할 수 있는 원동력이 되었습니다.</p>
+        <p>거대 초식 공룡 무리가 숲을 이동하며 거친 식물들을 먹어 치우고 길을 내면, 작은 동물들이 살아갈 수 있는 새로운 환경이 조성되었습니다. 그리고 그 뒤를 쫓는 거대 육식 공룡들은 병들거나 약한 개체를 사냥하며 전체 생태계의 인구수와 건강성을 유지하는 완벽한 균형추 역할을 수행했습니다.</p>
+    </div>
+</section>
+
+<section id="hypotheses" class="container" style="background-color: white;">
+    <h2 class="section-title">공룡에 관한 흥미로운 가설들</h2>
+    <p class="section-desc">끊임없이 발전하는 고생물학의 최신 쟁점들</p>
+    <div class="info-grid">
+        <div class="text-card">
+            <h3>🪶 깃털 공룡 가설 (정설화)</h3>
+            <p>과거에는 공룡이 매끈한 비늘로 덮여있다고 생각했지만, 화석 기록을 통해 많은 수각류 공룡(예: 벨로키랍토르, 심지어 티라노사우루스류 일부)이 체온 유지나 과시용 깃털을 가졌다는 것이 사실로 밝혀졌습니다.</p>
+        </div>
+        <div class="text-card">
+            <h3>🩸 온혈동물 가설</h3>
+            <p>공룡은 파충류처럼 변온동물이었을까, 포유류처럼 항온동물이었을까? 최근의 연구는 공룡의 엄청난 성장 속도와 활동성을 근거로, 그들이 체온을 스스로 조절할 수 있는 '온혈동물'에 가까웠을 것이라는 주장에 무게를 싣고 있습니다.</p>
+        </div>
+    </div>
+</section>
+
+<section id="extinction" class="extinction-hero">
+    <h2>그들은 왜 사라졌는가? (K-Pg 대멸종)</h2>
+    <p style="margin-bottom: 20px;">
+        약 6,600만 년 전, 백악기 말기. 직경 10~15km에 달하는 거대한 소행성이 현재의 멕시코 유카탄 반도 칙술루브(Chicxulub) 지역에 떨어졌습니다. 
+    </p>
+    <p style="margin-bottom: 20px;">
+        충돌의 여파로 전 지구적인 지진과 쓰나미가 발생했고, 대기 중으로 솟구친 엄청난 양의 먼지와 황산염 에어로졸이 태양빛을 차단했습니다. 수년간 지속된 '핵겨울' 상태로 인해 광합성이 멈추고 식물이 고사하자, 초식 공룡이 굶어 죽고 연이어 육식 공룡이 멸종하는 먹이사슬의 완전한 붕괴가 일어났습니다.
+    </p>
+    <p style="font-weight: bold; color: var(--fossil-gold);">
+        하지만 모든 공룡이 사라진 것은 아닙니다. 깃털을 달고 하늘을 날아올랐던 소형 수각류 공룡들은 살아남아 오늘날의 **'새(조류)'**가 되어 여전히 우리 곁에서 숨 쉬고 있습니다.
+    </p>
+</section>
+
+<footer>
+    <p>DINO ULTIMATE ARCHIVE &copy; 2026 | 과학적 고증에 기반한 공룡 가이드</p>
+</footer>
+
+</body>
+</html>
